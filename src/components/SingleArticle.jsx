@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CommentCard from "../components/CommentCard";
 import CommentForm from "../components/CommentForm";
+import CURRENT_USER from "../utils/currentUser";
 
 function SingleArticle() {
   const { article_id } = useParams();
@@ -121,7 +122,16 @@ function SingleArticle() {
           <p>No comments yet.</p>
         ) : (
           comments.map((comment) => (
-            <CommentCard key={comment.comment_id} comment={comment} />
+            <CommentCard
+              key={comment.comment_id}
+              comment={comment}
+              currentUser={CURRENT_USER.username} // 👈 this line!
+              onDelete={(deletedId) => {
+                setComments((curr) =>
+                  curr.filter((comment) => comment.comment_id !== deletedId)
+                );
+              }}
+            />
           ))
         )}
       </section>

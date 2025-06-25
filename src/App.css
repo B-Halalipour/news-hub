@@ -142,3 +142,34 @@
   margin-top: 1rem;
   color: #222;
 }
+
+.vote-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.vote-controls button {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: #eee;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vote-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.vote-count {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.vote-error {
+  color: red;
+  font-size: 0.85rem;
+}

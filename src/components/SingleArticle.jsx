@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CommentCard from "../components/CommentCard";
+import CommentForm from "../components/CommentForm";
 
 function SingleArticle() {
   const { article_id } = useParams();
@@ -28,7 +29,9 @@ function SingleArticle() {
 
   // Fetch comments
   useEffect(() => {
-    fetch(`https://behnoudhp-news-be.onrender.com/api/articles/${article_id}/comments`)
+    fetch(
+      `https://behnoudhp-news-be.onrender.com/api/articles/${article_id}/comments`
+    )
       .then((res) => res.json())
       .then((data) => {
         setComments(data.comments);
@@ -50,15 +53,17 @@ function SingleArticle() {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ inc_votes: inc }),
-    }).then((res) => {
-      if (!res.ok) {
-        throw new Error("Vote request failed");
-      }
-    }).catch(() => {
-      setVotes((curr) => curr - inc);
-      setVoteChange((curr) => curr - inc);
-      setVoteError("Something went wrong. Please try again.");
-    });
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Vote request failed");
+        }
+      })
+      .catch(() => {
+        setVotes((curr) => curr - inc);
+        setVoteChange((curr) => curr - inc);
+        setVoteError("Something went wrong. Please try again.");
+      });
   };
 
   if (isLoading) return <p>Loading article...</p>;
@@ -105,6 +110,13 @@ function SingleArticle() {
 
       <section className="comments-section">
         <h2>Comments</h2>
+        <CommentForm
+          articleId={article.article_id}
+          onAddComment={(newComment) => {
+            setComments((currComments) => [newComment, ...currComments]);
+          }}
+        />
+
         {comments.length === 0 ? (
           <p>No comments yet.</p>
         ) : (

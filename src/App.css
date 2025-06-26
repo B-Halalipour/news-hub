@@ -53,6 +53,26 @@
   text-decoration: underline;
 }
 
+.topics-nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.topics-nav li a {
+  padding: 0.5rem 1rem;
+  background: #0077cc;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.topics-nav li a:hover {
+  background: #005fa3;
+}
+
 @media (max-width: 600px) {
   .article-card {
     width: 100%;

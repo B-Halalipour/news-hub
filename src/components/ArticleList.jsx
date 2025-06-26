@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom"; // ✅ Needed for query params
 import ArticleCard from "./ArticleCard";
+import TopicsList from "./TopicsList";
+
 
 function ArticleList() {
   const [articles, setArticles] = useState([]);
@@ -31,6 +33,7 @@ function ArticleList() {
 
   return (
     <>
+       <TopicsList />
       <section className="sort-controls">
         <label htmlFor="sort-by">Sort by:</label>
         <select

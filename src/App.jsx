@@ -3,6 +3,8 @@ import ArticleList from "./components/ArticleList";
 import SingleArticle from "./components/SingleArticle";
 import TopicsList from "./components/TopicsList";
 import TopicPage from "./pages/TopicPage";
+import NotFound from "./pages/NotFound";
+
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Route path="/articles" element={<ArticleList />} />
         <Route path="/articles/:article_id" element={<SingleArticle />} />
         <Route path="/topics/:topic_slug" element={<TopicPage />} />
+        <Route path="*" element={<NotFound />} />
+
       </Routes>
     </BrowserRouter>
   );

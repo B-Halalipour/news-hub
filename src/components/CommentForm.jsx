@@ -8,13 +8,16 @@ function CommentForm({ articleId, onAddComment }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!commentBody.trim()) return;
+    if (!commentBody.trim()) {
+      setError("Comment cannot be empty.");
+      return;
+    }
 
     setIsPosting(true);
     setError(null);
 
     const newComment = {
-      username: "grumpy19", // 🔁 Replace with real user in future
+      username: "grumpy19", // Replace with CURRENT_USER.username later
       body: commentBody,
     };
 
@@ -33,8 +36,8 @@ function CommentForm({ articleId, onAddComment }) {
         return res.json();
       })
       .then(({ comment }) => {
-        onAddComment(comment); // update comment list in parent
-        setCommentBody(""); // clear input
+        onAddComment(comment);
+        setCommentBody("");
         setIsPosting(false);
       })
       .catch(() => {

@@ -12,6 +12,7 @@ function SingleArticle() {
   const [votes, setVotes] = useState(0);
   const [voteChange, setVoteChange] = useState(0);
   const [voteError, setVoteError] = useState(null);
+  const [articleError, setArticleError] = useState(null);
 
   // Fetch article data
   useEffect(() => {
@@ -64,11 +65,14 @@ function SingleArticle() {
         setVotes((curr) => curr - inc);
         setVoteChange((curr) => curr - inc);
         setVoteError("Something went wrong. Please try again.");
+        setArticleError("Article not found.");
+        setIsLoading(false);
       });
   };
 
   if (isLoading) return <p>Loading article...</p>;
   if (!article) return <p>Article not found.</p>;
+  if (articleError) return <p className="error-msg">{articleError}</p>;
 
   return (
     <section className="single-article">

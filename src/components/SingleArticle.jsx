@@ -15,7 +15,6 @@ function SingleArticle() {
   const [voteError, setVoteError] = useState(null);
   const [articleError, setArticleError] = useState(null);
 
-  // Fetch article data
   useEffect(() => {
     fetch(`https://behnoudhp-news-be.onrender.com/api/articles/${article_id}`)
       .then((res) => res.json())
@@ -30,7 +29,6 @@ function SingleArticle() {
       });
   }, [article_id]);
 
-  // Fetch comments
   useEffect(() => {
     fetch(
       `https://behnoudhp-news-be.onrender.com/api/articles/${article_id}/comments`
@@ -46,7 +44,6 @@ function SingleArticle() {
 
   const readableDate = new Date(article?.created_at).toLocaleDateString();
 
-  // Handle upvote/downvote
   const handleVote = (inc) => {
     setVotes((curr) => curr + inc);
     setVoteChange((curr) => curr + inc);
@@ -77,14 +74,13 @@ function SingleArticle() {
 
   return (
     <section className="single-article">
-      <h1>{article.title}</h1>
-      <p>
-        <strong>Author:</strong> {article.author} | <strong>Topic:</strong>{" "}
-        {article.topic}
-      </p>
-      <p>
-        <strong>Date:</strong> {readableDate}
-      </p>
+      <h1 className="article-title">{article.title}</h1>
+      <div className="article-meta">
+        <p><strong>Author:</strong> {article.author}</p>
+        <p><strong>Topic:</strong> {article.topic}</p>
+        <p><strong>Date:</strong> {readableDate}</p>
+      </div>
+
       <img
         src={article.article_img_url}
         alt={article.title}
@@ -92,7 +88,6 @@ function SingleArticle() {
       />
       <p className="article-body">{article.body}</p>
 
-      {/* Votes Section */}
       <section className="vote-controls">
         <button
           onClick={() => handleVote(1)}
@@ -112,7 +107,7 @@ function SingleArticle() {
         {voteError && <p className="vote-error">{voteError}</p>}
       </section>
 
-      <p>💬 {article.comment_count} comments</p>
+      <p className="comment-count">💬 {article.comment_count} comments</p>
 
       <section className="comments-section">
         <h2>Comments</h2>
@@ -124,13 +119,13 @@ function SingleArticle() {
         />
 
         {comments.length === 0 ? (
-          <p>No comments yet.</p>
+          <p className="no-comments">No comments yet.</p>
         ) : (
           comments.map((comment) => (
             <CommentCard
               key={comment.comment_id}
               comment={comment}
-              currentUser={CURRENT_USER.username} // 👈 this line!
+              currentUser={CURRENT_USER.username}
               onDelete={(deletedId) => {
                 setComments((curr) =>
                   curr.filter((comment) => comment.comment_id !== deletedId)

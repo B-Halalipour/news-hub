@@ -23,7 +23,6 @@ function TopicsList() {
 
   return (
     <nav className="topics-nav">
-      <h2>Topics</h2>
       <ul>
         {topics.map((topic) => (
           <li key={topic.slug}>

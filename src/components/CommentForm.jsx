@@ -8,7 +8,8 @@ function CommentForm({ articleId, onAddComment }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!commentBody.trim()) {
+    const trimmedBody = commentBody.trim();
+    if (!trimmedBody) {
       setError("Comment cannot be empty.");
       return;
     }
@@ -17,17 +18,15 @@ function CommentForm({ articleId, onAddComment }) {
     setError(null);
 
     const newComment = {
-      username: "grumpy19", // Replace with CURRENT_USER.username later
-      body: commentBody,
+      username: "grumpy19", // Replace with CURRENT_USER.username when auth is added
+      body: trimmedBody,
     };
 
     fetch(
       `https://behnoudhp-news-be.onrender.com/api/articles/${articleId}/comments`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComment),
       }
     )
@@ -38,10 +37,11 @@ function CommentForm({ articleId, onAddComment }) {
       .then(({ comment }) => {
         onAddComment(comment);
         setCommentBody("");
-        setIsPosting(false);
       })
       .catch(() => {
         setError("Something went wrong. Please try again.");
+      })
+      .finally(() => {
         setIsPosting(false);
       });
   };
@@ -57,7 +57,7 @@ function CommentForm({ articleId, onAddComment }) {
         onChange={(e) => setCommentBody(e.target.value)}
         disabled={isPosting}
         required
-      ></textarea>
+      />
       <button type="submit" disabled={isPosting || !commentBody.trim()}>
         {isPosting ? "Posting..." : "Submit"}
       </button>

@@ -16,20 +16,22 @@ function CommentCard({ comment, currentUser, onDelete }) {
     )
       .then((res) => {
         if (!res.ok) throw new Error("Delete failed");
-        onDelete(comment.comment_id); // Notify parent to remove it
+        onDelete(comment.comment_id); // Tell parent to remove this comment
       })
       .catch(() => {
-        setDeleteError("Could not delete comment. Please try again.");
+        setDeleteError("❌ Could not delete comment. Please try again.");
         setIsDeleting(false);
       });
   };
 
+  const formattedDate = new Date(comment.created_at).toLocaleDateString();
+
   return (
     <div className="comment-card">
       <p className="comment-body">{comment.body}</p>
+
       <p className="comment-meta">
-        ✍️ {comment.author} | 📅{" "}
-        {new Date(comment.created_at).toLocaleDateString()} | 👍 {comment.votes}
+        ✍️ {comment.author} | 📅 {formattedDate} | 👍 {comment.votes}
       </p>
 
       {currentUser === comment.author && (
@@ -38,10 +40,16 @@ function CommentCard({ comment, currentUser, onDelete }) {
             onClick={handleDelete}
             disabled={isDeleting}
             className="delete-button"
+            aria-label={`Delete comment by ${comment.author}`}
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </button>
-          {deleteError && <p className="delete-error">{deleteError}</p>}
+
+          {deleteError && (
+            <p className="delete-error" role="alert">
+              {deleteError}
+            </p>
+          )}
         </div>
       )}
     </div>

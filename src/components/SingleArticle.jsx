@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CommentCard from "../components/CommentCard";
 import CommentForm from "../components/CommentForm";
 import CURRENT_USER from "../utils/currentUser";
+import Loader from "./Loader";
 
 function SingleArticle() {
   const { article_id } = useParams();
@@ -70,7 +71,7 @@ function SingleArticle() {
       });
   };
 
-  if (isLoading) return <p>Loading article...</p>;
+  if (isLoading) return <Loader message="Loading article..." />;
   if (!article) return <p>Article not found.</p>;
   if (articleError) return <p className="error-msg">{articleError}</p>;
 

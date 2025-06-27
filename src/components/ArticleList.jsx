@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom"; // ✅ Needed for query params
+import { useSearchParams } from "react-router-dom";
 import ArticleCard from "./ArticleCard";
 import TopicsList from "./TopicsList";
-
+import Loader from "./Loader";
 
 function ArticleList() {
   const [articles, setArticles] = useState([]);
@@ -27,35 +27,40 @@ function ArticleList() {
         console.error("❌ Fetch error:", err);
         setIsLoading(false);
       });
-  }, [sort_by, order]); // ✅ re-run fetch when these change
+  }, [sort_by, order]);
 
-  if (isLoading) return <p>Loading articles...</p>;
+  if (isLoading) return <Loader message="Loading articles..." />;
 
   return (
     <>
-       <TopicsList />
-      <section className="sort-controls">
-        <label htmlFor="sort-by">Sort by:</label>
-        <select
-          id="sort-by"
-          value={sort_by}
-          onChange={(e) =>
-            setSearchParams({ sort_by: e.target.value, order })
-          }
-        >
-          <option value="created_at">Date</option>
-          <option value="votes">Votes</option>
-          <option value="comment_count">Comments</option>
-        </select>
+      <div className="topics-wrapper">
+        <TopicsList />
+      </div>
 
-        <button
-          onClick={() => {
-            const newOrder = order === "asc" ? "desc" : "asc";
-            setSearchParams({ sort_by, order: newOrder });
-          }}
-        >
-          Order: {order === "asc" ? "⬆️ Asc" : "⬇️ Desc"}
-        </button>
+      <section className="controls-bar">
+        <div className="sort-wrapper">
+          <label htmlFor="sort-by">Sort by:</label>
+          <select
+            id="sort-by"
+            value={sort_by}
+            onChange={(e) =>
+              setSearchParams({ sort_by: e.target.value, order })
+            }
+          >
+            <option value="created_at">Date</option>
+            <option value="votes">Votes</option>
+            <option value="comment_count">Comments</option>
+          </select>
+
+          <button
+            onClick={() => {
+              const newOrder = order === "asc" ? "desc" : "asc";
+              setSearchParams({ sort_by, order: newOrder });
+            }}
+          >
+            Order: {order === "asc" ? "⬆️ Asc" : "⬇️ Desc"}
+          </button>
+        </div>
       </section>
 
       <main className="articles-container">

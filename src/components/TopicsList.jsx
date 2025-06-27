@@ -1,6 +1,6 @@
-
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Loader from "./Loader";
 
 function TopicsList() {
   const [topics, setTopics] = useState([]);
@@ -19,7 +19,7 @@ function TopicsList() {
       });
   }, []);
 
-  if (isLoading) return <p>Loading topics...</p>;
+  if (isLoading) return <Loader message="Loading topics..." />;
 
   return (
     <nav className="topics-nav">
